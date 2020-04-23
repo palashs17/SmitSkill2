@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,7 +48,7 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
               Text(
-                "Tensor Chat",
+                "SmitSkill",
                 style: TextStyle(
                   fontSize: 40.0,
                 ),
@@ -127,7 +132,7 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tensor Chat"),
+        title: Text("SmitSkill"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +215,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tensor Chat"),
+        title: Text("SmitSkill"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -293,6 +298,7 @@ class _ChatState extends State<Chat> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -304,7 +310,7 @@ class _ChatState extends State<Chat> {
             child: Image.asset("assets/images/logo.png"),
           ),
         ),
-        title: Text("Tensor Chat"),
+        title: Text("SmitSkill"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.close),
@@ -353,6 +359,13 @@ class _ChatState extends State<Chat> {
             Container(
               child: Row(
                 children: <Widget>[
+
+                  IconButton(
+                    icon: Icon(Icons.camera_alt),
+                    onPressed:  () {
+                      getImage(context);
+                    },
+                  ),
                   Expanded(
                     child: TextField(
                       onSubmitted: (value) => callback(),
@@ -370,10 +383,24 @@ class _ChatState extends State<Chat> {
                 ],
               ),
             ),
+
           ],
         ),
       ),
     );
+  }
+  File _image;
+  Future getImage(BuildContext context) async{
+    File image;
+    if(context != null){
+      image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    }
+    else {
+      image = await ImagePicker.pickImage(source: ImageSource.camera);
+    }
+    setState(() {
+      _image = image;
+    });
   }
 }
 
